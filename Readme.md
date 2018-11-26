@@ -23,3 +23,7 @@ Names, to make it as quick as possible to switch traffic to it with DNS if neces
 * `thebiggive.org.uk`
 * `www.thebiggive.org.uk`
 * `secure.thebiggive.org.uk`
+
+CloudFront is also configured to serve any would-be-404 - i.e. any request except for `/sorry.html` -
+with that page and a 200 status code. See Error Pages in [its settings](https://console.aws.amazon.com/cloudfront/home?region=eu-west-1#distribution-settings:E336APQ2P4ZG2S)
+for where this is configured.
