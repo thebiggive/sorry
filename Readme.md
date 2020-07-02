@@ -6,24 +6,38 @@ during a Challenge.
 It should have no asset dependencies except CSS & images loaded from a CloudFront CDN endpoint, which
 points at another S3 bucket, and this page itself is hosted statically on S3.
 
-It is permanently available at http://tbg-sorry.s3-website-eu-west-1.amazonaws.com/ and the CloudFront
-endpoint https://sorry.thebiggive.org.uk. CloudFront is used because AWS limits the names you can point
-directly at an S3 hosted website, which prevents us from shifting other subdomains' traffic to this page
-in an emergency except via CloudFront.
+It is permanently available at the CloudFront-fronted endpoint
+https://sorry.thebiggive.org.uk for testing. It is also registered as an origin,
+normally unused, in the live Donate frontend CloudFront distribution (ID E3M8692L2XFBZY).
 
-The CloudFront distribution ID is E336APQ2P4ZG2S and its Domain Name is d2xqiklal9vlni.cloudfront.net.
-In the event of an outage, consider updating the DNS record for the affected site to an _ALIAS A_ record
-pointing at this distribution. See the `sorry` subdomain's Route 53 configuration for an example to
-emulate.
+## Failover method
 
-Note that the CloudFront distribution is already configured to respond on any of these 4 Alternate Domain
-Names, to make it as quick as possible to switch traffic to it with DNS if necessary:
+Because _donate._ already points to a CloudFront distribution, we cannot reroute to another at DNS level seamlessly, as only one distribution can be configured to support the same CNAME. To keep the CloudFront changes as narrow in scope as possible, there is already a Sorry static S3 site Origin set up on the Donate distributions - it is named **sorry-s3**.
 
-* `sorry.thebiggive.org.uk` (routing always enabled)
-* `thebiggive.org.uk`
-* `www.thebiggive.org.uk`
-* `secure.thebiggive.org.uk`
+Remember that if the underlying issue is brief, doing this **may _increase_ the site’s downtime** for up to 30 minutes for some donors. Use with caution!
 
-CloudFront is also configured to serve any would-be-404 - i.e. any request except for `/sorry.html` -
-with that page and a 200 status code. See Error Pages in [its settings](https://console.aws.amazon.com/cloudfront/home?region=eu-west-1#distribution-settings:E336APQ2P4ZG2S)
-for where this is configured.
+To switch _donate._ main traffic that would normally go through the ALB and on to the ECS cluster over to the Sorry page:
+ 
+ * go to the [Production Distribution](https://console.aws.amazon.com/cloudfront/home?region=eu-west-1#distribution-settings:E3M8692L2XFBZY) > Behaviors
+ * in the _Default (*)_ Behavior in the AWS Console, manually change the origin from **donate-alb-ecs** to **sorry-s3**.
+
+Note that S3 website hosting is turned off since users don’t interact with S3 directly.
+
+## Updating the page
+
+You can edit the messaging in [sorry.html](./sorry.html) and manually upload it to [this bucket](https://s3.console.aws.amazon.com/s3/buckets/tbg-sorry/?region=eu-west-1&tab=overview), making sure to enable public read access.
+
+Be sure to commit and push your changes to this repository.
+
+### Alternative method
+
+Switching to another distribution requires slow changes, because multiple CloudFront
+distributions cannot support the same hostname at once.
+
+So it is **not recommended** to attempt to failover using DNS with our current setup.
+
+If for some reason you have no other option, you can still do so, and point to the
+Sorry CloudFront distribution normally now used only for testing the sorry page content.
+
+That distribution is also configured to serve any would-be-404 - i.e. any request except for `/sorry.html` -
+with that page and a 200 status code. See Error Pages in [its settings](https://console.aws.amazon.com/cloudfront/home?region=eu-west-1#distribution-settings:E336APQ2P4ZG2S).
