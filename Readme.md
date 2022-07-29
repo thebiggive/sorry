@@ -18,7 +18,7 @@ Remember that if the underlying issue is brief, doing this **may _increase_ the 
 
 To switch _donate._ main traffic that would normally go through the ALB and on to the ECS cluster over to the Sorry page:
  
- * go to the [Production Distribution](https://console.aws.amazon.com/cloudfront/home?region=eu-west-1#distribution-settings:E3M8692L2XFBZY) > Behaviors
+ * go to the [Production Distribution](https://us-east-1.console.aws.amazon.com/cloudfront/v3/home?region=us-east-1&skipRegion=true#/distributions/E3M8692L2XFBZY) > Behaviors
  * in the _Default (*)_ Behavior in the AWS Console, manually change the origin from **donate-alb-ecs** to **sorry-s3**.
 
 Note that S3 website hosting is turned off since users don’t interact with S3 directly.
