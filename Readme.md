@@ -12,9 +12,9 @@ normally unused, in the live Donate frontend CloudFront distribution (ID E3M8692
 
 ## Recommended failover method
 
-Because _donate._ already points to a CloudFront distribution, we cannot reroute to another at DNS level seamlessly, as only one distribution can be configured to support the same CNAME. To keep the CloudFront changes as narrow in scope as possible, there is already a Sorry static S3 site Origin set up on the Donate distributions - it is named **sorry-s3**.
+Because _donate._ already points to a CloudFront distribution, we cannot reroute to another at DNS level seamlessly, as only one distribution can be configured to support a given CNAME. To keep the CloudFront changes as narrow in scope as possible, there is already a Sorry static S3 site Origin set up on the Donate distributions - it is named **sorry-s3**.
 
-Remember that if the underlying issue is brief, doing this **may _increase_ the site’s downtime** for up to 30 minutes for some donors. Use with caution!
+Remember that if the underlying issue is brief, doing this **may _increase_ the site’s downtime** by up to 30 minutes for some donors. Use with caution!
 
 To switch _donate._ main traffic that would normally go through the ALB and on to the ECS cluster over to the Sorry page:
  
@@ -40,4 +40,4 @@ If for some reason you have no other option, you can still do so, and point to t
 Sorry CloudFront distribution normally used only for testing the sorry page content.
 
 That distribution is also configured to serve any would-be-404 - i.e. any request except for `/sorry.html` -
-with that page and a 200 status code. See Error Pages in [its settings](https://console.aws.amazon.com/cloudfront/home?region=eu-west-1#distribution-settings:E336APQ2P4ZG2S).
+with that page and a 200 status code. See Error Pages in [its settings](https://us-east-1.console.aws.amazon.com/cloudfront/v3/home?region=us-east-1&skipRegion=true#/distributions/E336APQ2P4ZG2S/error_pages).
