@@ -3,8 +3,9 @@
 This static page is a fallback to route traffic to, in the event of an outage or serious app problem
 during a Challenge.
 
-It should have no asset dependencies except CSS & images loaded from a CloudFront CDN endpoint, which
-points at another S3 bucket, and this page itself is hosted statically on S3.
+It should have no asset dependencies except font & component ones loaded from an external CDN endpoint, which should
+be available by virtue of [components](https://github.com/thebiggive/components) being npm-published, and not reliant
+on any Big Give infrastructure.
 
 It is permanently available at the CloudFront-fronted endpoint
 https://sorry.thebiggive.org.uk for testing. It is also registered as an origin,
