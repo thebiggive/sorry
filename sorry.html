@@ -29,6 +29,10 @@
         // Firefox in some modes, on some systems, seems to end up with an extremely tall `body` that makes
         // it impossible to see the page content, without this workaround. For our current purposes we expect
         // it to be harmless to run on all browsers.
+
+        // Zero delay (in window.onload) seems to be insufficient to let Firefox correct the weird rendering.
+        // 0.5s was OK on my local but if there's a dependency between this and loading the CDN files fully
+        // then that seems potentially too aggressive.
         setTimeout(function() {
           document.body.style.paddingTop = 0;
           document.body.style.maxHeight = '200%';
