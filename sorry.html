@@ -4,8 +4,8 @@
     <base href="https://sorry.thebiggive.org.uk">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="https://cdn.jsdelivr.net/npm/@biggive/components@202311241148.0.0/dist/biggive/assets/fonts/EuclidTriangle/stylesheet.css" rel="stylesheet" type="text/css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@biggive/components@202311241148.0.0/dist/biggive/biggive.esm.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/@biggive/components@202311241148.0.0/dist/components/index.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@biggive/components@202311241148.0.0/dist/biggive/biggive.esm.js" defer></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@biggive/components@202311241148.0.0/dist/components/index.js" defer></script>
 
     <title>Big Give</title>
     <meta name="robots" content="noindex,nofollow">
@@ -24,6 +24,16 @@
             padding: 30px;
         }
     </style>
+
+    <script>
+        // Firefox in some modes, on some systems, seems to end up with an extremely tall `body` that makes
+        // it impossible to see the page content, without this workaround. For our current purposes we expect
+        // it to be harmless to run on all browsers.
+        setTimeout(function() {
+          document.body.style.paddingTop = 0;
+          document.body.style.maxHeight = '200%';
+        }, 1_000);
+    </script>
 </head>
 <body>
     <main role="main">
