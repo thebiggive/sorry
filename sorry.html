@@ -3,15 +3,15 @@
 <head>
     <base href="https://sorry.thebiggive.org.uk">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link href="https://cdn.jsdelivr.net/npm/@biggive/components/dist/biggive/assets/fonts/EuclidTriangle/stylesheet.css" rel="stylesheet" type="text/css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@biggive/components/dist/biggive/biggive.esm.js" defer></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/@biggive/components/dist/components/index.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/@biggive/components@202311241148.0.0/dist/biggive/assets/fonts/EuclidTriangle/stylesheet.css" rel="stylesheet" type="text/css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@biggive/components@202311241148.0.0/dist/biggive/biggive.esm.js" defer></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@biggive/components@202311241148.0.0/dist/components/index.js" defer></script>
 
     <title>Big Give</title>
     <meta name="robots" content="noindex,nofollow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style type="text/css">
+    <style>
         html, body {
             padding: 0;
             margin: 0;
@@ -24,19 +24,31 @@
             padding: 30px;
         }
     </style>
+
+    <script>
+        // Firefox in some modes, on some systems, seems to end up with an extremely tall `body` that makes
+        // it impossible to see the page content, without this workaround. For our current purposes we expect
+        // it to be harmless to run on all browsers.
+
+        // Zero delay (in window.onload) seems to be insufficient to let Firefox correct the weird rendering.
+        // 0.5s was OK on my local but if there's a dependency between this and loading the CDN files fully
+        // then that seems potentially too aggressive.
+        setTimeout(function() {
+          document.body.style.paddingTop = 0;
+          document.body.style.maxHeight = '200%';
+        }, 1_000);
+    </script>
 </head>
 <body>
-    <biggive-header>
-        <div slot="social-icons">
+    <main role="main">
+        <div>
             <biggive-social-icon service="Facebook" url="https://www.facebook.com/theBigGive.org.uk" background-colour="tertiary" icon-colour="black"></biggive-social-icon>
             <biggive-social-icon service="Twitter" url="https://twitter.com/BigGive" background-colour="tertiary" icon-colour="black"></biggive-social-icon>
             <biggive-social-icon service="LinkedIn" url="https://uk.linkedin.com/company/big-give" background-colour="tertiary" icon-colour="black"></biggive-social-icon>
             <biggive-social-icon service="YouTube" url="https://www.youtube.com/channel/UC9_wH1aaTuZurJ-F9R8GDcA" background-colour="tertiary" icon-colour="black"></biggive-social-icon>
             <biggive-social-icon service="Instagram" url="https://www.instagram.com/thebiggiveorg" background-colour="tertiary" icon-colour="black"></biggive-social-icon>
         </div>
-    </biggive-header>
 
-    <main role="main">
         <h3>Sorry, we're having some problems!</h3>
 
         <p>Big Give is having intermittent issues handling so many generous donations right now. To be honest, we're a bit overwhelmed.</p>
